@@ -8,13 +8,15 @@ import {
     Input,
     ChangeDetectionStrategy,
     forwardRef,
-    SimpleChanges
+    SimpleChanges,
+    Output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { filter, take } from 'rxjs/operators';
 import { editor } from 'monaco-editor';
 
 import { MonacoEditorLoaderService } from '../../services/monaco-editor-loader.service';
+import { Subject, Observable } from 'rxjs';
 
 declare const monaco: any;
 
@@ -146,13 +148,16 @@ export class MonacoEditorComponent implements OnInit, OnChanges, OnDestroy, Cont
             scrollBeyondLastLine: false,
             theme: 'vc'
         };
+
         if (this.options) {
             opts = Object.assign({}, opts, this.options);
         }
+
         this.editor = monaco.editor.create(this.container, opts);
         this.editor.layout();
 
-        this.editor.onDidChangeModelContent(() => {
+        this.editor.onDidChangeModelContent(e => {
+            this._contentChanged.next(e);
             this.propagateChange(this.editor.getValue());
         });
 
@@ -165,13 +170,46 @@ export class MonacoEditorComponent implements OnInit, OnChanges, OnDestroy, Cont
             }
 
             if (pastParseError !== this.parseError) {
+                this._errorStateChanged.next(this.parseError);
                 this.onErrorStatusChange();
             }
         });
 
         this.editor.onDidBlurEditorText(() => {
+            this._touched.next();
             this.onTouched();
         });
+
+
+        this._ready.next();
+    }
+
+    private _errorStateChanged = new Subject<boolean>();
+
+    @Output()
+    get errorStateChanged(): Observable<boolean> {
+        return this._errorStateChanged;
+    }
+
+    private _ready = new Subject<void>();
+    
+    @Output()
+    get ready(): Observable<void> {
+        return this._ready;
+    }
+
+    private _contentChanged = new Subject<editor.IModelContentChangedEvent>();
+
+    @Output()
+    get contentChanged(): Observable<editor.IModelContentChangedEvent> {
+        return this._contentChanged;
+    }
+
+    private _touched = new Subject<void>();
+
+    @Output()
+    get touched(): Observable<void> {
+        return this._touched;
     }
 
     onResized(event) {
