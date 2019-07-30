@@ -14,7 +14,7 @@ import {
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
+import { MonacoEditorModule } from '@rezonant/ngx-monaco-editor';
 
 @NgModule({
   declarations: [

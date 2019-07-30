@@ -17,10 +17,10 @@
       "dom"
     ],
     "paths": {
-      "@materia-ui/ngx-monaco-editor": [
+      "@rezonant/ngx-monaco-editor": [
         "dist/ngx-monaco-editor"
       ],
-      "@materia-ui/ngx-monaco-editor/*": [
+      "@rezonant/ngx-monaco-editor/*": [
         "dist/ngx-monaco-editor/*"
       ]
     }
