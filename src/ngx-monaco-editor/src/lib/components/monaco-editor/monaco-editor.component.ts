@@ -9,7 +9,8 @@ import {
     ChangeDetectionStrategy,
     forwardRef,
     SimpleChanges,
-    Output
+    Output,
+    AfterViewInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { filter, take } from 'rxjs/operators';
@@ -69,7 +70,7 @@ declare const monaco: any;
         }
     ]
 })
-export class MonacoEditorComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor, Validator {
+export class MonacoEditorComponent implements AfterViewInit, OnChanges, OnDestroy, ControlValueAccessor, Validator {
     @Input() options: editor.IEditorConstructionOptions;
     @ViewChild('editor', { static: false }) editorContent: ElementRef;
 
@@ -84,7 +85,7 @@ export class MonacoEditorComponent implements OnInit, OnChanges, OnDestroy, Cont
 
     constructor(private monacoLoader: MonacoEditorLoaderService) { }
 
-    ngOnInit() {
+    ngAfterViewInit() {
         this.container = this.editorContent.nativeElement;
         this.monacoLoader.isMonacoLoaded.pipe(
             filter(isLoaded => isLoaded),
