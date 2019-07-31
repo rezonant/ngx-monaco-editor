@@ -10,7 +10,8 @@ import {
     forwardRef,
     SimpleChanges,
     Output,
-    AfterViewInit
+    AfterViewInit,
+    DoCheck
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, Validator, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { filter, take } from 'rxjs/operators';
@@ -71,7 +72,7 @@ declare const monaco: any;
         }
     ]
 })
-export class MonacoEditorComponent implements AfterViewInit, OnChanges, OnDestroy, ControlValueAccessor, Validator {
+export class MonacoEditorComponent implements AfterViewInit, DoCheck, OnChanges, OnDestroy, ControlValueAccessor, Validator {
     @Input() options: editor.IEditorConstructionOptions;
     @ViewChild('editor', { static: false }) editorContent: ElementRef;
 
@@ -89,7 +90,7 @@ export class MonacoEditorComponent implements AfterViewInit, OnChanges, OnDestro
     widthPx : number;
     heightPx : number;
 
-    ngDoChanges() {
+    ngDoCheck() {
         this.widthPx = this.container.offsetWidth;
         this.heightPx = this.container.offsetHeight;
     }
