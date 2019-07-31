@@ -181,8 +181,6 @@ export class MonacoEditorComponent implements AfterViewInit, OnChanges, OnDestro
             this.onTouched();
         });
 
-
-        alert('stuff!');
         this._ready.next();
     }
 
