@@ -91,6 +91,9 @@ export class MonacoEditorComponent implements AfterViewInit, DoCheck, OnChanges,
     heightPx : number;
 
     ngDoCheck() {
+        if (!this.container)
+            return;
+        
         this.widthPx = this.container.offsetWidth;
         this.heightPx = this.container.offsetHeight;
     }
