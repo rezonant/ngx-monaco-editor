@@ -28,8 +28,9 @@ declare const monaco: any;
 		<div
 			#editor
 			class="monaco-editor"
-			[style.width.px]="container.offsetWidth"
-			[style.height.px]="container.offsetHeight" style="min-width: 0;"
+			[style.width.px]="widthPx"
+            [style.height.px]="heightPx" 
+            style="min-width: 0;"
 		></div>
 	</div>
 </div>`,
@@ -41,7 +42,7 @@ declare const monaco: any;
 	display: flex;
 	overflow: hidden;
 	max-width: 100%;
-	min-wdith: 0;
+	min-width: 0;
 }
 .wrapper {
 	width: 0px; height: 0px;
@@ -84,6 +85,14 @@ export class MonacoEditorComponent implements AfterViewInit, OnChanges, OnDestro
     private propagateChange: (_: any) => any = (_: any) => { };
 
     constructor(private monacoLoader: MonacoEditorLoaderService) { }
+
+    widthPx : number;
+    heightPx : number;
+
+    ngDoChanges() {
+        this.widthPx = this.container.offsetWidth;
+        this.heightPx = this.container.offsetHeight;
+    }
 
     ngAfterViewInit() {
         this.container = this.editorContent.nativeElement;
