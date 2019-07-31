@@ -75,6 +75,7 @@ declare const monaco: any;
 export class MonacoEditorComponent implements AfterViewInit, DoCheck, OnChanges, OnDestroy, ControlValueAccessor, Validator {
     @Input() options: editor.IEditorConstructionOptions;
     @ViewChild('editor', { static: false }) editorContent: ElementRef;
+    @ViewChild('container', { static: false }) containerElement: ElementRef;
 
     container: HTMLDivElement;
     editor: editor.IStandaloneCodeEditor;
@@ -91,11 +92,11 @@ export class MonacoEditorComponent implements AfterViewInit, DoCheck, OnChanges,
     heightPx : number;
 
     ngDoCheck() {
-        if (!this.container)
+        if (!this.containerElement || !this.containerElement.nativeElement)
             return;
         
-        this.widthPx = this.container.offsetWidth;
-        this.heightPx = this.container.offsetHeight;
+        this.widthPx = this.containerElement.nativeElement.offsetWidth;
+        this.heightPx = this.containerElement.nativeElement.offsetHeight;
     }
 
     ngAfterViewInit() {
