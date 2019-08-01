@@ -95,6 +95,10 @@ export class MonacoEditorComponent implements AfterViewInit, DoCheck, OnChanges,
         if (!this.containerElement || !this.containerElement.nativeElement)
             return;
         
+        this.updateDimensions();
+    }
+
+    updateDimensions() {
         this.widthPx = this.containerElement.nativeElement.offsetWidth;
         this.heightPx = this.containerElement.nativeElement.offsetHeight;
     }
@@ -196,6 +200,8 @@ export class MonacoEditorComponent implements AfterViewInit, DoCheck, OnChanges,
         });
 
         this._ready.next();
+
+        setTimeout(() => this.updateDimensions(), 100);
     }
 
     private _errorStateChanged = new Subject<boolean>();
